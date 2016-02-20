@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nodrev.kriss.helloworld">
+
+    <!-- This is the default platform API kriss uses. -->
+    <uses-sdk android:minSdkVersion="14" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:hasCode="false">
+
+        <!-- Our activity is the built-in NativeActivity framework class.
+                     This will take care of integrating with our NDK code. -->
+        <activity android:name="android.app.NativeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <!-- Tell NativeActivity the name of or .so -->
+            <meta-data android:name="android.app.lib_name"
+                android:value="helloworldDebug" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
