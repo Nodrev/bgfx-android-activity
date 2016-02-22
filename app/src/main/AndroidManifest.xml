@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nodrev.bgfx.examples.helloworld">
 
-    <!-- This is the default platform API kriss uses. -->
+    <!-- This is the default platform API bgfx uses. -->
     <uses-sdk android:minSdkVersion="14" />
 
     <application
