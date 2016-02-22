@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nodrev.kriss.helloworld">
+    package="com.nodrev.bgfx.examples.helloworld">
 
     <!-- This is the default platform API kriss uses. -->
     <uses-sdk android:minSdkVersion="14" />
@@ -16,10 +16,10 @@
                      This will take care of integrating with our NDK code. -->
         <activity android:name="android.app.NativeActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape">
-            <!-- Tell NativeActivity the name of or .so -->
+            android:screenOrientation="portrait">
+            <!-- Tell NativeActivity the name of our .so (strip 'lib' and '.so') -->
             <meta-data android:name="android.app.lib_name"
-                android:value="helloworldDebug" />
+                android:value="example-00-helloworldRelease" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -3,15 +3,13 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
-        applicationId "com.nodrev.kriss.helloworld"
+        applicationId 'com.nodrev.bgfx.examples.helloworld'
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
-
     // One APK per ABI. Generate also one multi-abi APK.
     splits {
         abi {
@@ -21,7 +19,6 @@ android {
             universalApk true
         }
     }
-
     // Helper function to generate a unique version code per application version and per abi
     // Method comes from https://androidbycode.wordpress.com/2015/07/07/android-ndk-a-guide-to-deploying-apps-with-native-libraries/
     project.ext.versionCodes = ['armeabi': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'mips': 5, 'mips64': 6, 'x86': 8, 'x86_64': 9]
@@ -32,7 +29,6 @@ android {
                             com.android.build.OutputFile.ABI), 0) * 10000000 + android.defaultConfig.versionCode
         }
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -41,6 +37,8 @@ android {
         debug {
             jniDebuggable true
         }
+    }
+    productFlavors {
     }
 }
 
