@@ -104,8 +104,8 @@ To define the .so file to load by the native activity, you have to edit `bgfx-an
 </activity>
 ```
 
-## Examples resources files
-Some examples requires resources files, you will need to copy them to the Android device (physical or emulator) SDCard using `adb`:
+## Examples resource files
+Some examples requires resource files, you will need to copy them to the Android device (physical or emulator) SDCard using `adb`:
 ```shell
 adb push bgfx/examples/runtime /sdcard/bgfx/examples/runtime
 ```
@@ -115,6 +115,8 @@ You can also use a file explorer and copy files manually to `DCIM/bgfx/examples/
 
 ## Packaging
 Rebuild the project, build APK, and test the application!
+
+**Remark:** Generated APKs goes to `bgfx-android-activity/app/build/outputs/apk` directory.
 
 [License (BSD 2-clause)](https://github.com/nodrev/bgfx-android-activity/blob/master/LICENSE)
 -----------------------------------------------------------------------
