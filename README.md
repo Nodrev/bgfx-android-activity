@@ -104,6 +104,14 @@ To define the .so file to load by the native activity, you have to edit `bgfx-an
 </activity>
 ```
 
+## Examples resources files
+Some examples requires resources files, you will need to copy them to the Android device (physical or emulator) SDCard using `adb`:
+```shell
+adb push bgfx/examples/runtime /sdcard/bgfx/examples/runtime
+```
+You can also use a file explorer and copy files manually to `DCIM/bgfx/examples/runtime`.
+**Remark:** This is not the official way to do for a real application, runtime files should be embedded into APK, but for bgfx examples, we go that way.
+
 ## Packaging
 Rebuild the project, build APK, and test the application!
 
