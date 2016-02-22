@@ -1,7 +1,8 @@
-[bgfx android activity](https://github.com/nodrev/bgfx-android-activity) - Sample activity to be used with bgfx examples
-========================================================================================================================
+[bgfx android activity](https://github.com/nodrev/bgfx-android-activity) - Android glue for bgfx
+================================================================================================
 
 A minimal Android Activity using `NativeActivity` class which allows to run [bgfx](https://github.com/bkaradzic/bgfx)'s examples onto Android platforms.
+![Android emulator with helloworld example](https://github.com/nodrev/bgfx-android-activity/raw/master/app/src/main/screenshot.png)
 
 # Prerequisites
 **Remark**: Although those build instructions assume a linux platform to generate the APKs, the used tools are available for OSX and MSWindows. As a result, the specified commands should be easily adapted to work for those platforms.
