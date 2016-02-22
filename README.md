@@ -37,6 +37,7 @@ You may need to reboot in order to reload those environment variables.
 ## Clone repositories
 ```shell
 mkdir bgfx-android
+cd bgfx-android
 clone https://github.com/bkaradzic/bx.git
 clone https://github.com/bkaradzic/bgfx.git
 clone https://github.com/nodrev/bgfx-android-activity.git
