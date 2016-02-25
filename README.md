@@ -31,6 +31,13 @@ export ANDROID_NDK_ARM=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.9/pr
 export ANDROID_NDK_MIPS=$ANDROID_NDK_ROOT/toolchains/mipsel-linux-android-4.9/prebuilt/linux-x86_64
 export ANDROID_NDK_X86=$ANDROID_NDK_ROOT/toolchains/x86-4.9/prebuilt/linux-x86_64
 ```
+
+You can also extend the `PATH` variable to be able to access Android platform tools (`adb`, `dmtracedump`, etc) from the shell:
+```shell
+export ANDROID_SDK_ROOT=~/android/sdk
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+```
+
 You may need to reboot in order to reload those environment variables.
 
 # Setup project
