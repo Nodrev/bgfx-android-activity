@@ -116,7 +116,6 @@ Some examples requires resource files, you will need to copy them to the Android
 ```shell
 adb push bgfx/examples/runtime /sdcard/bgfx/examples/runtime
 ```
-You can also use a file explorer and copy files manually to `DCIM/bgfx/examples/runtime`.
 
 **Remark:** This is not the official way to do for a real application, runtime files should be embedded into APK, but for bgfx examples, we go that way.
 
