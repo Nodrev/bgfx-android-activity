@@ -13,24 +13,21 @@ This project uses [Android Studio](http://developer.android.com/sdk/index.html) 
 *Following commands assume it was installed to `~/android/android-studio` directory.*
 
 ## Android NDK
-[Android NDK](http://developer.android.com/ndk/downloads/index.html) is required to compile bgfx for android platforms: 
-```shell
-chmod +x ./android-ndk-r10e-linux-x86_64.bin
-./android-ndk-r10e-linux-x86_64.bin
-```
-*Following commands assume it was installed to `~/android/android-ndk-r10e` directory.*
+[Android NDK](http://developer.android.com/ndk/downloads/index.html) is required to compile bgfx for android platforms. You can install it using Android Studio's SDK Manager. 
+*Following commands assume it was installed to `~/android/sdk/ndk-bundle` directory.*
 
 ## Environment variables
 ```shell
-sudo gedit /etc/profile.d/ndk.sh
+sudo pluma /etc/profile.d/ndk.sh
 ```
 Add the following lines:
 ```shell
-export ANDROID_NDK_ROOT=~/android/android-ndk-r10e
+export ANDROID_NDK_ROOT=~/android/sdk/ndk-bundle
+export ANDROID_NDK_CLANG=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64
 export ANDROID_NDK_ARM=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
-export ANDROID_NDK_MIPS=$ANDROID_NDK_ROOT/toolchains/mipsel-linux-android-4.9/prebuilt/linux-x86_64
 export ANDROID_NDK_X86=$ANDROID_NDK_ROOT/toolchains/x86-4.9/prebuilt/linux-x86_64
 ```
+*Note: Historically the NDK supported 32-bit and 64-bit MIPS (and so does `bgfx`), but support was removed in NDK r17.*
 
 You can also extend the `PATH` variable to be able to access Android platform tools (`adb`, `dmtracedump`, etc) from the shell:
 ```shell
@@ -46,17 +43,18 @@ You may need to reboot in order to reload those environment variables.
 ```shell
 mkdir bgfx-android
 cd bgfx-android
-clone https://github.com/bkaradzic/bx.git
-clone https://github.com/bkaradzic/bgfx.git
-clone https://github.com/nodrev/bgfx-android-activity.git
+git clone https://github.com/bkaradzic/bx.git
+git clone https://github.com/bkaradzic/bimg.git
+git clone https://github.com/bkaradzic/bgfx.git
+git clone https://github.com/nodrev/bgfx-android-activity.git
 ```
 
 ## Compile
 Compile BGFX samples for every android abi we want to support:
 ```shell
 cd bgfx
-make
-make android-arm & make android-mips & make android-x86
+make projgen
+make android-arm & make android-x86
 ```
 
 # Build APK
@@ -65,7 +63,6 @@ make android-arm & make android-mips & make android-x86
 Copy the libraries corresponding to the bgfx sample you want to try to the jniLibs directory.
 ```shell
 cp ./build/android-arm/bin/libexample-00-helloworldRelease.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
-cp ./build/android-mips/bin/libexample-00-helloworldRelease.so ../bgfx-android-activity/app/src/main/jniLibs/mips
 cp ./build/android-x86/bin/libexample-00-helloworldRelease.so ../bgfx-android-activity/app/src/main/jniLibs/x86
 ```
 
@@ -131,7 +128,7 @@ Rebuild the project, build APK, and test the application!
 <img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
 </a>
 
-	Copyright 2016 Jean-François Verdon. All rights reserved.
+	Copyright 2016-2018 Jean-François Verdon. All rights reserved.
 	
 	https://github.com/nodrev/bgfx-android-activity
 	
