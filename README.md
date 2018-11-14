@@ -7,6 +7,11 @@ A minimal Android Activity using `NativeActivity` class which allows to run [bgf
 # Prerequisites
 **Remark**: Although those build instructions assume a linux platform to generate the APKs, the used tools are available for OSX and MSWindows. As a result, the specified commands should be easily adapted to work for those platforms.
 
+## Find the Android platform number of your target
+Find the android version of the target phone or tablet, convert it to API level using this page: https://source.android.com/source/build-numbers
+
+*Example: my phone runs Android 6.0.1, the platform number is 23*
+
 ## Android Studio 3.2
 This project uses [Android Studio](http://developer.android.com/sdk/index.html) build system, Gradle, to generate Android's APK files, so you need to download it and install it properly. Android Studio comes with Android SDK, so no need to install it separatly.
 
@@ -14,6 +19,7 @@ This project uses [Android Studio](http://developer.android.com/sdk/index.html) 
 
 ## Android NDK
 [Android NDK](http://developer.android.com/ndk/downloads/index.html) is required to compile bgfx for android platforms. You can install it using Android Studio's SDK Manager. 
+
 *Following commands assume it was installed to `~/android/sdk/ndk-bundle` directory.*
 
 ## Environment variables
@@ -50,7 +56,12 @@ git clone https://github.com/nodrev/bgfx-android-activity.git
 ```
 
 ## Compile
-Compile BGFX samples for every android abi we want to support:
+First, modify BX `scripts/toolchain.lua` and assign your android platform number to the variable `androidPlatform`:
+```lua
+local androidPlatform = "android-23"
+```
+
+Then, compile BGFX samples for every android abi we want to support:
 ```shell
 cd bgfx
 make projgen
@@ -63,7 +74,9 @@ make android-arm & make android-x86
 Copy the libraries corresponding to the bgfx sample you want to try to the jniLibs directory.
 ```shell
 cp .build/android-arm/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
+cp ~/android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
 cp .build/android-x86/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/x86
+cp ~/android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86/libc++_shared.so ../bgfx-android-activity/app/src/main/jniLibs/x86
 ```
 
 ## Import the project to Android Studio
@@ -71,15 +84,23 @@ TODO
 Launch android studio, and import the project.
 
 ## Modify application ID
-Edit `bgfx-android-activity/app/build.gradle`, and replace `applicationId` with your own application id:
+Edit `bgfx-android-activity/app/build.gradle`, and replace `applicationId` with your own application id. Set `compileSdkVersion` and `targetSdkVersion` to your android platform number:
 ```
+    compileSdkVersion 23
     defaultConfig {
         applicationId 'com.nodrev.bgfx.examples'
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 23
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
+```
+
+You may also have to modify the version of the `appcompat` dependency package with one consistent with your platform number.
+```
+dependencies {
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+}
 ```
 
 Edit `bgfx-android-activity/app/src/main/AndroidManifest.xml`, and set `package` value to the same application id:
@@ -106,6 +127,18 @@ To define the .so file to load by the native activity, you have to edit `bgfx-an
     <meta-data android:name="android.app.lib_name"
                android:value="examplesRelease" />
 </activity>
+```
+
+Modify the .so to load in `BgfxAndroidActivity.java` too:
+```java
+public class BgfxAndroidActivity extends android.app.NativeActivity
+{
+    static
+    {
+        System.loadLibrary("c++_shared");
+        System.loadLibrary("examplesRelease");
+    }
+}
 ```
 
 ## Examples resource files

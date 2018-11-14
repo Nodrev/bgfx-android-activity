@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 23
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId 'com.nodrev.bgfx.examples'
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 23
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
@@ -40,8 +40,13 @@ android {
     }
     productFlavors {
     }
+    lintOptions {
+        // I have a critical lint error when using a compileSdkVersion less than 26 with last
+        // build tools. I have an old phone, so need to ignore this error.
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:23.4.0'
 }
