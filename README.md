@@ -7,7 +7,7 @@ A minimal Android Activity using `NativeActivity` class which allows to run [bgf
 # Prerequisites
 **Remark**: Although those build instructions assume a linux platform to generate the APKs, the used tools are available for OSX and MSWindows. As a result, the specified commands should be easily adapted to work for those platforms.
 
-## Android Studio
+## Android Studio 3.2
 This project uses [Android Studio](http://developer.android.com/sdk/index.html) build system, Gradle, to generate Android's APK files, so you need to download it and install it properly. Android Studio comes with Android SDK, so no need to install it separatly.
 
 *Following commands assume it was installed to `~/android/android-studio` directory.*
@@ -62,8 +62,8 @@ make android-arm & make android-x86
 ## Copy bgfx files
 Copy the libraries corresponding to the bgfx sample you want to try to the jniLibs directory.
 ```shell
-cp ./build/android-arm/bin/libexample-00-helloworldRelease.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
-cp ./build/android-x86/bin/libexample-00-helloworldRelease.so ../bgfx-android-activity/app/src/main/jniLibs/x86
+cp .build/android-arm/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
+cp .build/android-x86/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/x86
 ```
 
 ## Import the project to Android Studio
@@ -74,9 +74,9 @@ Launch android studio, and import the project.
 Edit `bgfx-android-activity/app/build.gradle`, and replace `applicationId` with your own application id:
 ```
     defaultConfig {
-        applicationId 'com.nodrev.bgfx.examples.helloworld'
+        applicationId 'com.nodrev.bgfx.examples'
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
@@ -85,7 +85,7 @@ Edit `bgfx-android-activity/app/build.gradle`, and replace `applicationId` with 
 Edit `bgfx-android-activity/app/src/main/AndroidManifest.xml`, and set `package` value to the same application id:
 ```
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nodrev.bgfx.examples.helloworld">
+    package="com.nodrev.bgfx.examples">
     [...]
 </manifest>
 ```
@@ -94,7 +94,7 @@ Edit `bgfx-android-activity/app/src/main/AndroidManifest.xml`, and set `package`
 Edit `bgfx-android-activity/app/src/main/res/values/strings.xml`, and replace `app_name` value with your application name
 ```
 <resources>
-    <string name="app_name">BGFX Helloworld</string>
+    <string name="app_name">BGFX Examples</string>
 </resources>
 ```
 
@@ -104,14 +104,14 @@ To define the .so file to load by the native activity, you have to edit `bgfx-an
 <activity android:name="android.app.NativeActivity"
     <!-- Tell NativeActivity the name of our .so (strip 'lib' and '.so') -->
     <meta-data android:name="android.app.lib_name"
-               android:value="example-00-helloworldRelease" />
+               android:value="examplesRelease" />
 </activity>
 ```
 
 ## Examples resource files
 Some examples requires resource files, you will need to copy them to the Android device (physical or emulator) SDCard using `adb`:
 ```shell
-adb push bgfx/examples/runtime /sdcard/bgfx/examples/runtime
+~/android/sdk/platform-tools/adb push bgfx/examples/runtime /sdcard/bgfx/examples/runtime
 ```
 
 **Remark:** This is not the official way to do for a real application, runtime files should be embedded into APK, but for bgfx examples, we go that way.

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidStudioTestApplication.iml" filepath="$PROJECT_DIR$/AndroidStudioTestApplication.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///mnt/datas/projets/bgfx-android/bgfx-android-activity/app/app.iml" filepath="/mnt/datas/projets/bgfx-android/bgfx-android-activity/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bgfx-android-activity.iml" filepath="$PROJECT_DIR$/bgfx-android-activity.iml" />
     </modules>
   </component>
 </project>

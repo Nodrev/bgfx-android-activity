@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId 'com.nodrev.bgfx.examples.helloworld'
+        applicationId 'com.nodrev.bgfx.examples'
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
@@ -15,7 +15,7 @@ android {
         abi {
             enable true
             reset()
-            include 'armeabi-v7a', 'mips', 'x86'
+            include 'armeabi-v7a', 'x86'
             universalApk true
         }
     }
@@ -43,5 +43,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
 }

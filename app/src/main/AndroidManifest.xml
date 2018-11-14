@@ -1,8 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nodrev.bgfx.examples.helloworld">
+    package="com.nodrev.bgfx.examples">
 
     <!-- This is the default platform API bgfx uses. -->
-    <uses-sdk android:minSdkVersion="14" />
 
     <!-- Need permissions to access bgfx examples resources files from
          "/sdcard/bgfx/examples/runtime" (see "bgfx/examples/common/entry/entry_android.cpp") -->
@@ -23,7 +22,7 @@
             android:screenOrientation="portrait">
             <!-- Tell NativeActivity the name of our .so (strip 'lib' and '.so') -->
             <meta-data android:name="android.app.lib_name"
-                android:value="example-00-helloworldRelease" />
+                android:value="examplesRelease" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
