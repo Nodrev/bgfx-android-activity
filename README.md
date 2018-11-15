@@ -5,24 +5,29 @@ A minimal Android Activity using `NativeActivity` class which allows to run [bgf
 ![Android emulator with helloworld example](https://github.com/nodrev/bgfx-android-activity/raw/master/app/src/main/screenshot.png)
 
 # Prerequisites
+
 **Remark**: Although those build instructions assume a linux platform to generate the APKs, the used tools are available for OSX and MSWindows. As a result, the specified commands should be easily adapted to work for those platforms.
 
 ## Find the Android platform number of your target
+
 Find the android version of the target phone or tablet, convert it to API level using this page: https://source.android.com/source/build-numbers
 
 *Example: my phone runs Android 6.0.1, the platform number is 23*
 
 ## Android Studio 3.2
+
 This project uses [Android Studio](http://developer.android.com/sdk/index.html) build system, Gradle, to generate Android's APK files, so you need to download it and install it properly. Android Studio comes with Android SDK, so no need to install it separatly.
 
 *Following commands assume it was installed to `~/android/android-studio` directory.*
 
 ## Android NDK
+
 [Android NDK](http://developer.android.com/ndk/downloads/index.html) is required to compile bgfx for android platforms. You can install it using Android Studio's SDK Manager. 
 
 *Following commands assume it was installed to `~/android/sdk/ndk-bundle` directory.*
 
 ## Environment variables
+
 ```shell
 sudo pluma /etc/profile.d/ndk.sh
 ```
@@ -46,6 +51,7 @@ You may need to reboot in order to reload those environment variables.
 # Setup project
 
 ## Clone repositories
+
 ```shell
 mkdir bgfx-android
 cd bgfx-android
@@ -56,6 +62,7 @@ git clone https://github.com/nodrev/bgfx-android-activity.git
 ```
 
 ## Compile
+
 First, modify BX `scripts/toolchain.lua` and assign your android platform number to the variable `androidPlatform`:
 ```lua
 local androidPlatform = "android-23"
@@ -71,6 +78,7 @@ make android-arm & make android-x86
 # Build APK
 
 ## Copy bgfx files
+
 Copy the libraries corresponding to the bgfx sample you want to try to the jniLibs directory.
 ```shell
 cp .build/android-arm/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
@@ -79,12 +87,9 @@ cp .build/android-x86/bin/libexamplesRelease.so ../bgfx-android-activity/app/src
 cp ~/android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86/libc++_shared.so ../bgfx-android-activity/app/src/main/jniLibs/x86
 ```
 
-## Import the project to Android Studio
-TODO
-Launch android studio, and import the project.
-
 ## Modify application ID
-Edit `bgfx-android-activity/app/build.gradle`, and replace `applicationId` with your own application id. Set `compileSdkVersion` and `targetSdkVersion` to your android platform number:
+
+Import the project in Android Studio, and edit `bgfx-android-activity/app/build.gradle`. Replace `applicationId` with your own application id. Set `compileSdkVersion` and `targetSdkVersion` to your android platform number:
 ```
     compileSdkVersion 23
     defaultConfig {
@@ -112,6 +117,7 @@ Edit `bgfx-android-activity/app/src/main/AndroidManifest.xml`, and set `package`
 ```
 
 ## Modify application name
+
 Edit `bgfx-android-activity/app/src/main/res/values/strings.xml`, and replace `app_name` value with your application name
 ```
 <resources>
@@ -120,6 +126,7 @@ Edit `bgfx-android-activity/app/src/main/res/values/strings.xml`, and replace `a
 ```
 
 ## Define the library name
+
 To define the .so file to load by the native activity, you have to edit `bgfx-android-activity/app/src/main/AndroidManifest.xml`
 ```
 <activity android:name="android.app.NativeActivity"
@@ -142,6 +149,7 @@ public class BgfxAndroidActivity extends android.app.NativeActivity
 ```
 
 ## Examples resource files
+
 Some examples requires resource files, you will need to copy them to the Android device (physical or emulator) SDCard using `adb`:
 ```shell
 ~/android/sdk/platform-tools/adb push bgfx/examples/runtime /sdcard/bgfx/examples/runtime
@@ -150,9 +158,14 @@ Some examples requires resource files, you will need to copy them to the Android
 **Remark:** This is not the official way to do for a real application, runtime files should be embedded into APK, but for bgfx examples, we go that way.
 
 ## Packaging
-Rebuild the project, build APK, and test the application!
 
-**Remark:** Generated APKs goes to `bgfx-android-activity/app/build/outputs/apk` directory.
+Launch android studio, and import the project. Select `Build` menu, and generate APK using `Make Project` entry.
+
+*Note: If you change the build variant to release, you'll need to sign your APK before deployment, this is off this tutorial's scope*
+
+To deploy to your target device, go to the `Run` menu and either choose `Run 'app'` or `Debug 'app'` entry.
+
+*Note: Generated APKs goes to `bgfx-android-activity/app/build/outputs/apk` directory*
 
 [License (BSD 2-clause)](https://github.com/nodrev/bgfx-android-activity/blob/master/LICENSE)
 -----------------------------------------------------------------------
@@ -185,4 +198,3 @@ Rebuild the project, build APK, and test the application!
 	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
