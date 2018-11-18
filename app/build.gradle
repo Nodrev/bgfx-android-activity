@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 26
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId 'com.nodrev.bgfx.examples'
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion 23
+        targetSdkVersion 26
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
@@ -29,6 +29,29 @@ android {
                             com.android.build.OutputFile.ABI), 0) * 10000000 + android.defaultConfig.versionCode
         }
     }
+    // Helper function to synchronize our natives libs in jni directories
+    project.ext.nativeBuildsDirsAbis = ['armeabi-v7a': 'android-arm', 'x86': 'android-x86']
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def abiName = output.getFilter(com.android.build.OutputFile.ABI)
+            def nativeBuildDir = project.ext.nativeBuildsDirsAbis.get(abiName)
+            if(nativeBuildDir != null) {
+                // First task, copy our native lib to the corresponding jni directory
+                def task1 = project.tasks.create("synchronizeJni_${abiName}${variant.name}", Copy)
+                task1.from("./../../bgfx/.build/${nativeBuildDir}/bin/libexamplesRelease.so")
+                task1.into("./src/main/jniLibs/${abiName}")
+
+                // Second task, copy libc++_shared from NDK to the corresponding jni directory
+                def task2 = project.tasks.create("synchronizeJniLibC++_${abiName}${variant.name}", Copy)
+                task2.from("${System.getenv('ANDROID_NDK_ROOT')}/sources/cxx-stl/llvm-libc++/libs/${abiName}/libc++_shared.so")
+                task2.into("./src/main/jniLibs/${abiName}")
+
+                // Insert our copy tasks at the beginning of gradle build tree.
+                variant.preBuild.dependsOn task1
+                variant.preBuild.dependsOn task2
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -38,15 +61,8 @@ android {
             jniDebuggable true
         }
     }
-    productFlavors {
-    }
-    lintOptions {
-        // I have a critical lint error when using a compileSdkVersion less than 26 with last
-        // build tools. I have an old phone, so need to ignore this error.
-        abortOnError false
-    }
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:23.4.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
 }

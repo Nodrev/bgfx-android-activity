@@ -8,11 +8,13 @@ A minimal Android Activity using `NativeActivity` class which allows to run [bgf
 
 **Remark**: Although those build instructions assume a linux platform to generate the APKs, the used tools are available for OSX and MSWindows. As a result, the specified commands should be easily adapted to work for those platforms.
 
-## Find the Android platform number of your target
+## Determine minimum target
 
-Find the android version of the target phone or tablet, convert it to API level using this page: https://source.android.com/source/build-numbers
+By default, `bgfx` targets android API 24 (Android Nougat 7.0). So, if you have a phone or a tablet which runs an older Android version, you'll need to target the corresponding API number.
 
-*Example: my phone runs Android 6.0.1, the platform number is 23*
+Determine the minimal android version you wish to support, and get the corresponding API level using this page: https://source.android.com/source/build-numbers
+
+*Example: my phone runs Android Marshmallow 6.0.1, the platform number is 23*
 
 ## Android Studio 3.2
 
@@ -63,9 +65,10 @@ git clone https://github.com/nodrev/bgfx-android-activity.git
 
 ## Compile
 
-First, modify BX `scripts/toolchain.lua` and assign your android platform number to the variable `androidPlatform`:
-```lua
-local androidPlatform = "android-23"
+First, modify the file`bgfx/makefile` and modify the `projgen` to provide the minimal supported android platform (add `--with-android=xx`):
+```makefile
+	$(GENIE) --with-android=23 --with-combined-examples --gcc=android-arm gmake
+	$(GENIE) --with-android=23 --with-combined-examples --gcc=android-x86 gmake
 ```
 
 Then, compile BGFX samples for every android abi we want to support:
@@ -77,35 +80,18 @@ make android-arm & make android-x86
 
 # Build APK
 
-## Copy bgfx files
-
-Copy the libraries corresponding to the bgfx sample you want to try to the jniLibs directory.
-```shell
-cp .build/android-arm/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
-cp ~/android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so ../bgfx-android-activity/app/src/main/jniLibs/armeabi-v7a
-cp .build/android-x86/bin/libexamplesRelease.so ../bgfx-android-activity/app/src/main/jniLibs/x86
-cp ~/android/sdk/ndk-bundle/sources/cxx-stl/llvm-libc++/libs/x86/libc++_shared.so ../bgfx-android-activity/app/src/main/jniLibs/x86
-```
-
 ## Modify application ID
 
 Import the project in Android Studio, and edit `bgfx-android-activity/app/build.gradle`. Replace `applicationId` with your own application id. Set `compileSdkVersion` and `targetSdkVersion` to your android platform number:
 ```
-    compileSdkVersion 23
+    compileSdkVersion 26
     defaultConfig {
         applicationId 'com.nodrev.bgfx.examples'
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion 23 // The version we use to compile bgfx
+        targetSdkVersion 26
         versionCode 100 // Application version, 3 digits, major/minor/revision
         versionName "1.0.0"
     }
-```
-
-You may also have to modify the version of the `appcompat` dependency package with one consistent with your platform number.
-```
-dependencies {
-    implementation 'com.android.support:appcompat-v7:23.4.0'
-}
 ```
 
 Edit `bgfx-android-activity/app/src/main/AndroidManifest.xml`, and set `package` value to the same application id:
@@ -148,7 +134,7 @@ public class BgfxAndroidActivity extends android.app.NativeActivity
 }
 ```
 
-## Examples resource files
+## Resource files
 
 Some examples requires resource files, you will need to copy them to the Android device (physical or emulator) SDCard using `adb`:
 ```shell
