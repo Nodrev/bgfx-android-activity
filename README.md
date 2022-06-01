@@ -38,6 +38,7 @@ Add the following lines:
 export ANDROID_NDK_ROOT=~/android/sdk/ndk-bundle
 export ANDROID_NDK_CLANG=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64
 export ANDROID_NDK_ARM=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
+export ANDROID_NDK_ARM64=$ANDROID_NDK_ROOT/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64
 export ANDROID_NDK_X86=$ANDROID_NDK_ROOT/toolchains/x86-4.9/prebuilt/linux-x86_64
 ```
 *Note: Historically the NDK supported 32-bit and 64-bit MIPS (and so does `bgfx`), but support was removed in NDK r17.*
@@ -75,7 +76,7 @@ Then, compile BGFX samples for every android abi we want to support:
 ```shell
 cd bgfx
 make projgen
-make android-arm & make android-x86
+make android-arm & make android-arm64 & make android-x86
 ```
 
 # Build APK
